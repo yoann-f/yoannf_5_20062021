@@ -32,10 +32,10 @@ fetch(URL_API + productSell)
       console.log(data[i]["price"]);
       console.log(data[i]["imageUrl"]);
 
-
       // Création d'une div "conteneur" avec les classes bootstrap : col et mb-5
-      let col = document.createElement("div");
+      let col = document.createElement("article");
       col.classList.add("col", "mb-5");
+      col.id = "article-thumbnail";
 
       // Création d'une div "vignette" avec les classes bootstrap : card, h-100 et shadow
       let card = document.createElement("div");
@@ -100,29 +100,30 @@ fetch(URL_API + productSell)
 
       // creation of a btn with the class btn, btn-sm and btn-outline-secondary. I also added the text "Buy" inside.
       let btn = document.createElement("button");
-      btn.classList.add("btn", "btn-sm", "btn-outline-dark", "mt-auto");
+      btn.classList.add(
+        "btn",
+        "btn-sm",
+        "btn-outline-dark",
+        "mt-auto",
+        "addToCart"
+      );
       btn.style.margin = "0.5em";
       btn.style.zIndex = "2";
+      btn.type = "submit";
       btn.innerText = "Ajouter au panier";
 
-
-
-////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////
       // creation de la vignette cliquable dans son intégralité avec renvoi vers la page produit
       let btnThumbnail = document.createElement("a");
       btnThumbnail.classList.add("stretched-link");
       btnThumbnail.href = "produit.html" + "?id=" + data[i]["_id"];
-      
-// NE SERT A RIEN ==>     btnThumbnail.innerHTML = productSell + "/" + data[i]["name"] + "/" + data[i]["_id"];
-////////////////////////////////////////////////////////////////////////////////////
 
-
-
+      // NE SERT A RIEN ==>     btnThumbnail.innerHTML = productSell + "/" + data[i]["name"] + "/" + data[i]["_id"];
+      ////////////////////////////////////////////////////////////////////////////////////
 
       /* --------------------------------------------- */
 
       /* Here, we will connect all the HTML elements we have created above and added them to the DOM of the index.html*/
-            
 
       //Création des "cards" visible sur la page index.html de la boutique Orinoco
       productAction.appendChild(btnThumbnail);
@@ -139,10 +140,24 @@ fetch(URL_API + productSell)
       card.appendChild(img);
       card.appendChild(thumbnail);
 
-
       // get the HTML element where I want to include my card
       let container = document.getElementById("row");
       container.appendChild(col);
+    }
+
+    // AFFICHE UN MESSAGE EN CONSOLE.LOG LORSQUE JE CLIQUE SUR UN BOUTON "AJOUTER AU PANIER"
+    let addToCartClass = document.getElementsByClassName("addToCart");
+    console.log(addToCartClass);
+    //let lsqty = 0;
+    //localStorage.cartQTY = lsqty;
+
+    // Incrémentation du nombre de produits présent dans le panier
+    for (let i = 0; i < addToCartClass.length; i++) {
+      // addToCartClass[i].addEventListener("click", () => console.log("test"));
+      addToCartClass[i].addEventListener("click", () => lsqty++);
+      addToCartClass[i].addEventListener("click", () => (document.getElementById("qty-cart").innerHTML = lsqty));
+      addToCartClass[i].addEventListener("click", () => (localStorage.cartQTY = lsqty));
+      /* ********************************************************** */
     }
   })
   .catch(function (error) {
