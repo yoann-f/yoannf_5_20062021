@@ -159,10 +159,15 @@ fetch(URL_API + productSell + "/" + idProduct)
       productColorSelect.id = "product-option";
       productColorSelect.style.margin = "0.5em";
 
-      let productColorOption = document.createElement("option");
-      productColorOption.value = "colorOption";
-      productColorOption.innerText = data["colors"];
 
+      let options = data["colors"];
+      for (let i = 0; i < options.length; i++) {
+        var opt = options[i];
+        var productColorOption = document.createElement("option");
+      productColorOption.textContent = opt;
+      productColorOption.value = opt;
+      productColorSelect.appendChild(productColorOption);
+      }
       /* --------------------------------------------- */
 
       /* Here, we will connect all the HTML elements we have created above and added them to the DOM of the index.html*/
