@@ -94,41 +94,18 @@ fetch(URL_API + productSell)
         "align-items-center"
       );
 
-      // creation of a div tag with the class btn-group
-      let btnGroup = document.createElement("div");
-      btnGroup.classList.add("btn-group");
-
-      // creation of a btn with the class btn, btn-sm and btn-outline-secondary. I also added the text "Buy" inside.
-      let btn = document.createElement("button");
-      btn.classList.add(
-        "btn",
-        "btn-sm",
-        "btn-outline-dark",
-        "mt-auto",
-        "addToCart"
-      );
-      btn.style.margin = "0.5em";
-      btn.style.zIndex = "2";
-      btn.type = "submit";
-      btn.innerText = "Ajouter au panier";
-
-      ////////////////////////////////////////////////////////////////////////////////////
       // creation de la vignette cliquable dans son intégralité avec renvoi vers la page produit
       let btnThumbnail = document.createElement("a");
       btnThumbnail.classList.add("stretched-link");
       btnThumbnail.href = "produit.html" + "?id=" + data[i]["_id"];
 
-      // NE SERT A RIEN ==>     btnThumbnail.innerHTML = productSell + "/" + data[i]["name"] + "/" + data[i]["_id"];
-      ////////////////////////////////////////////////////////////////////////////////////
-
       /* --------------------------------------------- */
-
       /* Here, we will connect all the HTML elements we have created above and added them to the DOM of the index.html*/
 
       //Création des "cards" visible sur la page index.html de la boutique Orinoco
       productAction.appendChild(btnThumbnail);
-      productAction.appendChild(btnGroup);
-      btnGroup.appendChild(btn);
+      //productAction.appendChild(btnGroup);
+      //btnGroup.appendChild(btn);
       productAction.appendChild(price);
 
       thumbnail.appendChild(productName);
@@ -145,21 +122,12 @@ fetch(URL_API + productSell)
       container.appendChild(col);
     }
 
-    // AFFICHE UN MESSAGE EN CONSOLE.LOG LORSQUE JE CLIQUE SUR UN BOUTON "AJOUTER AU PANIER"
-    let addToCartClass = document.getElementsByClassName("addToCart");
-    console.log(addToCartClass);
-    //let lsqty = 0;
-    //localStorage.cartQTY = lsqty;
-
-    // Incrémentation du nombre de produits présent dans le panier
-    for (let i = 0; i < addToCartClass.length; i++) {
-      // addToCartClass[i].addEventListener("click", () => console.log("test"));
-      addToCartClass[i].addEventListener("click", () => lsqty++);
-      addToCartClass[i].addEventListener("click", () => (document.getElementById("qty-cart").innerHTML = lsqty));
-      addToCartClass[i].addEventListener("click", () => (localStorage.cartQTY = lsqty));
-      /* ********************************************************** */
-    }
+    // Je récupère la quantité de produit ajouté au panier et l'affiche dans le panier en page d'accueil
+    var myqty = document.getElementById("qty-cart");
+    var qty = localStorage.getItem("cardQTY");
+    myqty.innerText = qty;
   })
+
   .catch(function (error) {
     alert("Erreur : " + error);
   });
