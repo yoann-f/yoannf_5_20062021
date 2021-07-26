@@ -6,3 +6,40 @@
     background-blend-mode: overlay;
 }
 /*End. Don't run!*/
+
+form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+div.buyerInformations {
+    display: grid;
+    width: 100%;
+}
+
+input#deliveryAdress, #billingAdress {
+    height: 5rem;
+}
+
+.fw-bolder-buyerInformations {
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.row-cols-1.mb-5 {
+    background-color: aliceblue;
+}
+
+
+/*FORMULAIRE STYLE*/
+input,
+button,
+select,
+optgroup,
+textarea {
+  border: none;
+}

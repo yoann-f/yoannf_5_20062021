@@ -7051,9 +7051,9 @@ textarea.form-control-lg {
   padding: 1rem !important;
 }
 
-.p-4 {
-  padding: 1.5rem !important;
-}
+/*.p-4 {
+  /*padding: 1.5rem !important;*//*DESACTIVE
+}*/
 
 .p-5 {
   padding: 3rem !important;
@@ -7115,8 +7115,8 @@ textarea.form-control-lg {
 }
 
 .py-5 {
-  padding-top: 3rem !important;
-  padding-bottom: 3rem !important;
+  padding-top: 0rem !important;/*MODIF 3rem !important;*/
+  /*padding-bottom: 3rem !important;*/
 }
 
 .pt-0 {
