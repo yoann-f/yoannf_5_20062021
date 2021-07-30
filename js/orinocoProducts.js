@@ -148,9 +148,6 @@
 
 
 
-
-
-
 // Ici, je choisis le type de produit vendu dans la boutique ("cameras", "teddies", "furniture") et le déclare en variable
 const productSell = "teddies";
 
@@ -164,6 +161,8 @@ const URL_API = "https://teddies-api.herokuapp.com/api/";
 //A partir de l'url de l'API et du type de produit sélectionné, je récupère les informations et organise la construction de la page d'accueil du site
 //MEMO : scripts.js == productsLayout
 productsLayout = () => {
+
+  
 
   fetch(URL_API + productSell)
     .then((res) => res.json())
@@ -510,12 +509,21 @@ fetch(URL_API + productSell + "/" + idProduct)
               //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
               productItem.product_ID = idProduct;
               productItem.product_QTY = lsqty;
-              //productItem.push(idProduct);
-              //productItem.push(lsqty);
-              console.table([productItem]);
-//              console.log('Nouvelle valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
+
+              //On teste si le produit n'est pas déjà dans le panier, on ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
+              if (productItem.product_ID != idProduct) {
+              productItem.push(idProduct);
+              productItem.push(lsqty);
+              } else {
+              console.log("esle");
+              //productItem.product_QTY.replace("15");
+              };
+              //console.table([productItem]);
+              console.log('Nouvelle valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
+
+              
               //productsList.product_LIST = productItem;
-              localStorage.setItem("cardList", JSON.stringify(productItem));
+              //localStorage.setItem("cardList", JSON.stringify(productItem));
               //localStorage.cardList = productsList;
             });
 
@@ -537,7 +545,8 @@ fetch(URL_API + productSell + "/" + idProduct)
             productItem.idProduct = localStorage.cardID;
             productItem.lsqty = localStorage.cardLSQTY;
             console.log("Contenu du tableau produit \"productItem\" :", productItem);
-
+productItem.product_ID = idProduct;
+              productItem.product_QTY = lsqty;
             
 
 
@@ -545,7 +554,7 @@ fetch(URL_API + productSell + "/" + idProduct)
             */
             //productsList.push(productItem);
             //productsList.product_LIST = productItem;
-            console.log("VERIFICATION PAGE PRODUIT: Contenu du tableau principal \"productList\" :", productsList);
+//            console.log("VERIFICATION PAGE PRODUIT: Contenu du tableau principal \"productList\" :", productsList);
             //localStorage.cardList = productsList;
             //localStorage.cardList = JSON.stringify(productsList); //Besoin de passer le contenu du tableau en localstorage ??? Euh... non
 
