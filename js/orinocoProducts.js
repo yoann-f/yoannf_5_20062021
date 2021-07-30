@@ -25,26 +25,98 @@
 
     //  ///////////////////////////////////////////////////////////////////////////////
     // Déclaration de la variable lsqty
-    if (localStorage.cardQTY != 0) {
+    /*if (localStorage.cardQTY != 0) {
         var lsqty = localStorage.cardQTY;
         console.log("La variable lsqty est égale à :", lsqty); //DEBUG LIGNE
     } else {
         var lsqty = 0;
         console.log("Valeur par défaut de la variable lsqty :", lsqty); //DEBUG LIGNE
-    }
+    }*/
+    var lsqty = 0;
+    var cardQTY = localStorage.cardQTY;
 
+    
+    /* /////////////////////PISTE ÉTUDIÉE /
+    var productItem = JSON.parse(localStorage.getItem("productItem")) || "[]";
+    console.log("Test:" + productItem);
+    var productsList = JSON.parse(localStorage.getItem("cardList")) || "[]";
+    console.log("Test:" + productsList);*/
 
-    if (productsList == undefined) {
+/*
+    if (productItem === undefined) {
+      var productItem = [];
+    } else {
+      //productItem.push(idProduct);
+      //productItem.push(lsqty);
+      productItem.idProduct = localStorage.cardID;
+      productItem.lsqty = localStorage.cardLSQTY;
+      console.log('Contenu du tableau produit "productItem" :', productItem);
+    };
+
+    if (productsList === undefined) {
         var productsList = [];
     } else {
-        var productsList = productsList;
-    };
+      //productsList.push(productItem);
+      productsList.productItem = productItem;
+      console.log('Contenu du tableau principal "productList" :', productsList);
+      localStorage.cardList = JSON.stringify(productsList); //Besoin de passer le contenu du tableau en localstorage ??? Euh... non
+    };*/
 
-    if (productItem == undefined) {
-        var productItem = [];
+
+
+
+
+/*
+  if (productItem === undefined && productsList === undefined) {
+    var productItem = [];
+    var productsList = [];
+  } else {
+    //productItem.push(idProduct);
+    //productItem.push(lsqty);
+    productItem.product_ID = localStorage.cardID;
+    productItem.product_QTY = localStorage.cardLSQTY;
+    console.log('Contenu du tableau produit "productItem" :', productItem);
+
+    //productsList.push(productItem);
+    productsList.push(productItem);
+    console.log('Contenu du tableau principal "productList" :', productsList);
+    localStorage.cardList = JSON.stringify(productsList); //Besoin de passer le contenu du tableau en localstorage ??? Euh... non
+  };*/
+
+  
+  //////////////////////////////////////////////
+        if (productItem === undefined) {
+          var productItem = [];
+        } else {
+        }
+  
+////////////////////////////////////////////////
+    if (productsList === undefined) {
+        var productsList = [];
+        //localStorage.cardList = JSON.stringify(productsList);
+        console.log('Le tableau principal "productList" est vide :', productsList);
     } else {
-        var productItem = productItem;
-    };
+        
+        console.log('Contenu du tableau principal "productList" :', productsList);
+    }
+/////////////////////////////////////////////////
+
+
+    /*if (productItem === undefined && productsList === undefined) {
+      var productItem = [];
+      var productsList = [];
+    } else {
+      //productItem.push(idProduct);
+      //productItem.push(lsqty);
+      /*productItem.product_ID = localStorage.cardID;
+      productItem.product_QTY = localStorage.cardLSQTY;
+      console.log('Contenu du tableau produit "productItem" :', productItem);*
+      
+      //productsList.push(productItem);
+      //productsList.push(productItem);
+      console.log('Contenu du tableau principal "productList" :', productsList);
+      //localStorage.cardList = JSON.stringify(productsList); //Besoin de passer le contenu du tableau en localstorage ??? Euh... non
+    };*/
 
 
 
@@ -52,29 +124,56 @@
 
 
 
+/*
+        // EN COURS /AVEC GIANCARLO
+            //var productsList = [];
+            //var productItem = [];
+
+            var quantityItem = 0; //dédié au sélecteur de quantité
+            //productItem.push(idProduct);
+            //productItem.push(lsqty);
+            productItem.idProduct = localStorage.cardID;
+            productItem.lsqty = localStorage.cardLSQTY;
+            console.log("Contenu du tableau produit \"productItem\" :", productItem);
+
+            
+
+
+            //productsList.push(productItem);
+            productsList.productItem = productItem;
+            console.log("Contenu du tableau principal \"productList\" :", productsList);
+            localStorage.cardList = JSON.stringify(productsList); //Besoin de passer le contenu du tableau en localstorage ??? Euh... non
+*/
 
 
 
-// PAGE ACCUEIL //////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
 // Ici, je choisis le type de produit vendu dans la boutique ("cameras", "teddies", "furniture") et le déclare en variable
 const productSell = "teddies";
 
 //Ensuite, je déclare l'url de l'API en variable
-const URL_API = "https://ab-p5-api.herokuapp.com/api/";
+//const URL_API = "https://ab-p5-api.herokuapp.com/api/";
+const URL_API = "https://teddies-api.herokuapp.com/api/";
+//const URL_API = "http://localhost:3000/api/";
 
+
+// PAGE ACCUEIL ////////////////////////////////////////////////////////////////////////////////
 //A partir de l'url de l'API et du type de produit sélectionné, je récupère les informations et organise la construction de la page d'accueil du site
 //MEMO : scripts.js == productsLayout
 productsLayout = () => {
 
-fetch(URL_API + productSell)
+  fetch(URL_API + productSell)
     .then((res) => res.json())
     .then((data) => {
-        console.log(data); //DEBUG: Le dossier retourne un tableau contenant l'ensemble des informations produits
-        let l = data.length; // Envoie en valeur "l", le nombre d'éléments contenus dans le tableau pour la boucle "for" ci-après
+      console.log(data); //DEBUG: Le dossier retourne un tableau contenant l'ensemble des informations produits
+      let l = data.length; // Envoie en valeur "l", le nombre d'éléments contenus dans le tableau pour la boucle "for" ci-après
 
-        for (let i = 0; i < l; i++) {
-            //DEBUG: Tous les éléments console.log sont présent afin de vérifier que je récupère bien les données de chaque produit
-            /*console.log(data[i]);
+      for (let i = 0; i < l; i++) {
+        //DEBUG: Tous les éléments console.log sont présent afin de vérifier que je récupère bien les données de chaque produit
+        /*console.log(data[i]);
             console.log(data[i]["color"]);
             console.log(data[i]["_id"]);
             console.log(data[i]["name"]);
@@ -82,96 +181,95 @@ fetch(URL_API + productSell)
             console.log(data[i]["price"]);
             console.log(data[i]["imageUrl"]);*/
 
-            // Création d'une div "conteneur" avec les classes bootstrap : col et mb-5
-            let col = document.createElement("article");
-            col.classList.add("col", "mb-5");
-            col.id = "article-thumbnail";
+        // Création d'une div "conteneur" avec les classes bootstrap : col et mb-5
+        let col = document.createElement("article");
+        col.classList.add("col", "mb-5");
+        col.id = "article-thumbnail";
 
-            // Création d'une div "vignette" avec les classes bootstrap : card, h-100 et shadow
-            let card = document.createElement("div");
-            card.classList.add("card", "h-100", "shadow");
+        // Création d'une div "vignette" avec les classes bootstrap : card, h-100 et shadow
+        let card = document.createElement("div");
+        card.classList.add("card", "h-100", "shadow");
 
-            // Si soldé, création d'un "badge" indiquant que le produit est en solde
-            let badge = document.createElement("div");
-            badge.classList.add(
-                "badge",
-                "bg-dark",
-                "text-white",
-                "position-absolute"
-            );
+        // Si soldé, création d'un "badge" indiquant que le produit est en solde
+        let badge = document.createElement("div");
+        badge.classList.add(
+          "badge",
+          "bg-dark",
+          "text-white",
+          "position-absolute"
+        );
 
-            // Création d'un élément image qui récupère l'url de l'image associée via le tableau
-            //where I fill the src attribute with the url given via the array "data". I also add a width 100% and a height 100%.
-            let img = document.createElement("img");
-            img.src = data[i]["imageUrl"];
-            img.style.width = "100%";
-            img.style.height = "50%";
-            img.style.objectFit = "cover";
+        // Création d'un élément image qui récupère l'url de l'image associée via le tableau
+        //where I fill the src attribute with the url given via the array "data". I also add a width 100% and a height 100%.
+        let img = document.createElement("img");
+        img.src = data[i]["imageUrl"];
+        img.style.width = "100%";
+        img.style.height = "50%";
+        img.style.objectFit = "cover";
 
-            // Création d'une div qui contient les éléments : nom, déscription et prix du produit, mis en forme avec les classes bootstrap: card-body, p-4 et text-center
-            let thumbnail = document.createElement("div");
-            thumbnail.classList.add(
-                "card-body",
-                "p-4",
-                "text-center",
-                "border",
-                "border-warning",
-                "border-2"
-            );
+        // Création d'une div qui contient les éléments : nom, déscription et prix du produit, mis en forme avec les classes bootstrap: card-body, p-4 et text-center
+        let thumbnail = document.createElement("div");
+        thumbnail.classList.add(
+          "card-body",
+          "p-4",
+          "text-center",
+          "border",
+          "border-warning",
+          "border-2"
+        );
 
-            // Création du titre contenant le nom du produit qui est récupéré dans le tableau
-            let productName = document.createElement("h5");
-            productName.classList.add("fw-bolder", "text-center");
-            productName.innerText = data[i]["name"];
+        // Création du titre contenant le nom du produit qui est récupéré dans le tableau
+        let productName = document.createElement("h5");
+        productName.classList.add("fw-bolder", "text-center");
+        productName.innerText = data[i]["name"];
 
-            // Création d'un paragraphe qui contient la description du produit récupérée dans le tableau. Ajout de la classe "card-text"
-            let productDescription = document.createElement("p");
-            productDescription.classList.add("card-text");
-            productDescription.innerText = data[i]["description"];
+        // Création d'un paragraphe qui contient la description du produit récupérée dans le tableau. Ajout de la classe "card-text"
+        let productDescription = document.createElement("p");
+        productDescription.classList.add("card-text");
+        productDescription.innerText = data[i]["description"];
 
-            // Création d'un élément span avec les classes (text-muted et my-3). Cet élément contient également le prix du produit divisé par 100 (car le prix indiqué dans l'API est en centimes)
-            let price = document.createElement("span");
-            price.classList.add("text-muted", "my-3");
-            price.innerText = data[i]["price"] / 100 + " " + "€";
+        // Création d'un élément span avec les classes (text-muted et my-3). Cet élément contient également le prix du produit divisé par 100 (car le prix indiqué dans l'API est en centimes)
+        let price = document.createElement("span");
+        price.classList.add("text-muted", "my-3");
+        price.innerText = data[i]["price"] / 100 + " " + "€";
 
-            // Création d'une div avec les classes (d-flex, justify-content-between et align-items-center)
-            let productAction = document.createElement("div");
-            productAction.classList.add(
-                "d-flex",
-                "justify-content-between",
-                "align-items-center"
-            );
+        // Création d'une div avec les classes (d-flex, justify-content-between et align-items-center)
+        let productAction = document.createElement("div");
+        productAction.classList.add(
+          "d-flex",
+          "justify-content-between",
+          "align-items-center"
+        );
 
-            // Ici, je fais en sorte que la la vignette soit cliquable dans son intégralité avec un renvoi vers la page produit concernée
-            let btnThumbnail = document.createElement("a");
-            btnThumbnail.classList.add("stretched-link");
-            btnThumbnail.href = "produit.html" + "?id=" + data[i]["_id"];
-            
+        // Ici, je fais en sorte que la la vignette soit cliquable dans son intégralité avec un renvoi vers la page produit concernée
+        let btnThumbnail = document.createElement("a");
+        btnThumbnail.classList.add("stretched-link");
+        btnThumbnail.href = "produit.html" + "?id=" + data[i]["_id"];
 
-            /* --------------------------------------------- */
-            // Mise en relation des éléments que nous avons créé ci-dessus et ajout de ces derniers au DOM de la page index.html
+        /* --------------------------------------------- */
+        // Mise en relation des éléments que nous avons créé ci-dessus et ajout de ces derniers au DOM de la page index.html
 
-            //Création des "cards" visible sur la page index.html de la boutique Orinoco
-            productAction.appendChild(btnThumbnail);
-            productAction.appendChild(price);
-            thumbnail.appendChild(productName);
-            thumbnail.appendChild(productDescription);
-            thumbnail.appendChild(productAction);
-            col.appendChild(card);
-            card.appendChild(img);
-            card.appendChild(thumbnail);
+        //Création des "cards" visible sur la page index.html de la boutique Orinoco
+        productAction.appendChild(btnThumbnail);
+        productAction.appendChild(price);
+        thumbnail.appendChild(productName);
+        thumbnail.appendChild(productDescription);
+        thumbnail.appendChild(productAction);
+        col.appendChild(card);
+        card.appendChild(img);
+        card.appendChild(thumbnail);
 
-            // Récupération de l'élément HTML dans lequel je veux inclure mes vignettes
-            let container = document.getElementById("row");
-            container.appendChild(col);
-        }
+        // Récupération de l'élément HTML dans lequel je veux inclure mes vignettes
+        let container = document.getElementById("row");
+        container.appendChild(col);
+      }
     })
 
     // En cas d'erreur (non récupération de l'API par exemple), je retourne via une alert(), l'erreur en question
     .catch(function (error) {
-        alert("Erreur : " + error);
+      alert("Erreur : " + error);
     });
-}
+};
 
 
 
@@ -355,41 +453,101 @@ fetch(URL_API + productSell + "/" + idProduct)
         // AFFICHE UN MESSAGE EN CONSOLE.LOG LORSQUE JE CLIQUE SUR UN BOUTON "AJOUTER AU PANIER"
         const addToCartClass = document.getElementById("addToCart");
 
+        localStorage.cardID = idProduct;
+        /*if (productItem === undefined) {
+          var productItem = [];
+        } else {
+        }*/
+        
+        /*(function() {
+          var productItem = JSON.parse(localStorage.getItem("productItem") || "[]");
+          console.log("Test:" + productItem);
+          productItem.forEach(function(idProduct, lsqty) {
+          });
+        });*/
 
         //Renvoie le nombre de produits présent dans le panier via le localstorage
-        if (lsqty != 0) {
-            console.log("Mon panier contient", lsqty, "produits") //DEBUG LIGNE
+        if (localStorage.cardQTY != 0) {
+            var cardQTY = JSON.parse(localStorage.cardQTY);
+            console.log("Mon panier contient", cardQTY, "produits") //DEBUG LIGNE
                         
             // Incrémentation du nombre de produits présent dans le panier
-            addToCartClass.addEventListener("click", () => {lsqty++});
-            addToCartClass.addEventListener("click", () => {document.getElementById("qty-cart").innerHTML = lsqty});
-            addToCartClass.addEventListener("click", () => {localStorage.cardQTY = lsqty});
-            btn.addEventListener("click", () => (localStorage.cardID = idProduct));
+            addToCartClass.addEventListener("click", () => {
+                lsqty++;
+                localStorage.cardLSQTY = lsqty;//Conserve en mémoire la valeur da ma variable lsqty tant que je ne la réinitialise pas en ajoutant un nouveau produit au panier
+                cardQTY++;
+                document.getElementById("qty-cart").innerHTML = cardQTY;
+                localStorage.cardQTY = cardQTY;
+                productItem.product_ID = idProduct;
+                productItem.product_QTY = lsqty;
+                //productItem.push(idProduct);
+                //productItem.push(lsqty);
+                console.table([productItem]);
+//                console.log('Nouveau contenu du tableau produit "productItem" :', productItem); //DEBBUG LINE
+                //productsList.product_LIST = productItem;
+                localStorage.setItem("cardList", JSON.stringify(productItem));
+                //localStorage.cardList = productsList;
+            });
 
+            //MÉMO 
+            //addToCartClass.addEventListener("click", () => (localStorage.cardID = idProduct));
+
+            //addToCartClass.addEventListener("click", () => (productsList.product_LIST = productItem));
+            //addToCartClass.addEventListener("click", () => (console.log('Contenu du tableau principal "productList" :', productsList))); //DEBUG LINE
+            //addToCartClass.addEventListener("click", () => (localStorage.cardList = JSON.stringify(productsList)));
         } else {
-            console.log("Mon panier ne contient pas de produits")
+            var cardQTY = 0;
+            console.log("Mon panier ne contient pas de produits");
 
             // Incrémentation du nombre de produits présent dans le panier
-            addToCartClass.addEventListener("click", () => {lsqty++});
-            addToCartClass.addEventListener("click", () => {document.getElementById("qty-cart").innerHTML = lsqty});
-            addToCartClass.addEventListener("click", () => {localStorage.cardQTY = lsqty});
-            btn.addEventListener("click", () => (localStorage.cardID = idProduct));
+            addToCartClass.addEventListener("click", () => {
+              lsqty++; //Quantité de produit ajouté au panier. + 1 à chaque clic sur le bouton d'ajout au panier. La valeur est réemise à 0 sur chaque page produit
+              localStorage.cardLSQTY = lsqty; //Conserve en mémoire la valeur da ma variable lsqty tant que je ne la réinitialise pas en ajoutant un nouveau produit au panier
+              cardQTY++; //Quantité total de produit présent dans le panier + 1 (à chaque clic sur le bouton d'ajout au panier)
+              document.getElementById("qty-cart").innerHTML = cardQTY; //Envoie la valeur cardQTY à l'élément ID: qty-cart de mon DOM (correspond au bouton panier de la page)
+              localStorage.cardQTY = cardQTY; //Mise en localstorage de la valeur cardQTY du panier (pour pouvoir la récupérer et l'afficher sur les autres pages). Chaque clic d'ajout au panier permet de raffraîchir la valeur
+
+              //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
+              productItem.product_ID = idProduct;
+              productItem.product_QTY = lsqty;
+              //productItem.push(idProduct);
+              //productItem.push(lsqty);
+              console.table([productItem]);
+//              console.log('Nouvelle valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
+              //productsList.product_LIST = productItem;
+              localStorage.setItem("cardList", JSON.stringify(productItem));
+              //localStorage.cardList = productsList;
+            });
+
+          //MÉMO
+          //addToCartClass.addEventListener("click", () => (localStorage.cardID = idProduct));
+
+          //addToCartClass.addEventListener("click", () => (productsList.product_LIST = productItem));
+          //addToCartClass.addEventListener("click", () => (console.log('Contenu du tableau principal "productList" :', productsList))); //DEBUG LINE
+          //addToCartClass.addEventListener("click", () => (localStorage.cardList = JSON.stringify(productsList)));
         }
 
+        /*
         // EN COURS /AVEC GIANCARLO
-        
-            // EN COURS /AVEC GIANCARLO
             //var productsList = [];
             //var productItem = [];
             var quantityItem = 0; //dédié au sélecteur de quantité
-            productItem.push(idProduct);
-            productItem.push(lsqty);
+            //productItem.push(idProduct);
+            //productItem.push(lsqty);
+            productItem.idProduct = localStorage.cardID;
+            productItem.lsqty = localStorage.cardLSQTY;
             console.log("Contenu du tableau produit \"productItem\" :", productItem);
 
+            
 
-            productsList.push(productItem);
-            console.log("Contenu du tableau principal \"productList\" :", productsList);
-            localStorage.cardList = JSON.stringify(productsList);
+
+            //productsList.push(productItem);
+            */
+            //productsList.push(productItem);
+            //productsList.product_LIST = productItem;
+            console.log("VERIFICATION PAGE PRODUIT: Contenu du tableau principal \"productList\" :", productsList);
+            //localStorage.cardList = productsList;
+            //localStorage.cardList = JSON.stringify(productsList); //Besoin de passer le contenu du tableau en localstorage ??? Euh... non
 
 
     })
