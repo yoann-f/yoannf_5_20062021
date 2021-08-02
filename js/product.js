@@ -41,12 +41,7 @@ productThumbnail = () => {
 
       // Si soldé, création d'un "badge" indiquant que le produit est en solde
       let badge = document.createElement("div");
-      badge.classList.add(
-        "badge",
-        "bg-dark",
-        "text-white",
-        "position-absolute"
-      );
+      badge.classList.add("badge", "bg-dark", "text-white", "position-absolute");
 
       // Création d'un élément image qui récupère l'url de l'image associée via le tableau. J'ajoute également une largeur de 100% et une hauteur de 50% ainsi que la propriété "cover"
       let img = document.createElement("img");
@@ -57,14 +52,7 @@ productThumbnail = () => {
 
       // Création d'une div qui contient les éléments : nom, déscription et prix du produit, mise en forme avec les classes bootstrap: card-body, p-4, text-center, border, border-warning et border-2
       let thumbnail = document.createElement("div");
-      thumbnail.classList.add(
-        "card-body",
-        "p-4",
-        "text-center",
-        "border",
-        "border-warning",
-        "border-2"
-      );
+      thumbnail.classList.add("card-body", "p-4", "text-center", "border", "border-warning", "border-2");
 
       // Création du titre contenant le nom du produit
       let productName = document.createElement("h5");
@@ -83,11 +71,7 @@ productThumbnail = () => {
 
       // Création d'une "div" avec les classes "d-flex", "justify-content-between" et "align-items-center". Permet la mise en forme des éléments affichant le prix, le choix des couleurs, l'ajout au panier
       let productAction = document.createElement("div");
-      productAction.classList.add(
-        "d-flex",
-        "justify-content-between",
-        "align-items-center"
-      );
+      productAction.classList.add("d-flex", "justify-content-between", "align-items-center");
 
       // Création du bouton deroulant pour selectionner la couleur du produit parmi les choix possibles
       let productColorForm = document.createElement("form");
@@ -174,51 +158,67 @@ productThumbnail = () => {
           cardQTY++;
           document.getElementById("qty-cart").innerHTML = cardQTY;
           localStorage.cardQTY = cardQTY;
-          productItem.product_ID = idProduct;
-          productItem.product_QTY = lsqty;
-          //productItem.push(idProduct);
-          //productItem.push(lsqty);
-          console.table([productItem]);
-          //                console.log('Nouveau contenu du tableau produit "productItem" :', productItem); //DEBBUG LINE
-          //productsList.product_LIST = productItem;
-          localStorage.setItem("cardList", JSON.stringify(productItem));
-          //localStorage.cardList = productsList;
-        });
 
-
-      } else {
-        var cardQTY = 0;
-        console.log("Mon panier ne contient pas de produits");
-
-        // Incrémentation du nombre de produits présent dans le panier
-        addToCartClass.addEventListener("click", () => {
-          lsqty++; //Quantité de produit ajouté au panier. + 1 à chaque clic sur le bouton d'ajout au panier. La valeur est réemise à 0 sur chaque page produit
-          localStorage.cardLSQTY = lsqty; //Conserve en mémoire la valeur da ma variable lsqty tant que je ne la réinitialise pas en ajoutant un nouveau produit au panier
-          cardQTY++; //Quantité total de produit présent dans le panier + 1 (à chaque clic sur le bouton d'ajout au panier)
-          document.getElementById("qty-cart").innerHTML = cardQTY; //Envoie la valeur cardQTY à l'élément ID: qty-cart de mon DOM (correspond au bouton panier de la page)
-          localStorage.cardQTY = cardQTY; //Mise en localstorage de la valeur cardQTY du panier (pour pouvoir la récupérer et l'afficher sur les autres pages). Chaque clic d'ajout au panier permet de raffraîchir la valeur
 
           //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
           productItem.product_ID = idProduct;
           productItem.product_QTY = lsqty;
 
-          //On teste si le produit n'est pas déjà dans le panier, on ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
-          if (productItem.product_ID != idProduct) {
-            productItem.push(idProduct);
-            productItem.push(lsqty);
-          } else {
-            console.log("esle");
-            //productItem.product_QTY.replace("15");
-          }
-          //console.table([productItem]);
-          console.log(
-            'Nouvelle valeur pour le tableau produit "productItem" :',
-            productItem
-          ); //DEBUG LINE
+          //On teste si le produit n'est pas déjà dans le panier. On ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
+            if (productItem.product_ID != idProduct) {
+                  productItem.push(idProduct);
+                  productItem.push(lsqty);
 
-          //productsList.product_LIST = productItem;
-          //localStorage.setItem("cardList", JSON.stringify(productItem));
-          //localStorage.cardList = productsList;
+                  //productList.product_LIST = productItem;
+                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
+                localStorage.cardList = productList;
+
+            } else {
+                //productList.product_LIST = productItem;
+                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
+                localStorage.cardList = productList;
+                console.log('Valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
+                console.log("valeur de ma localStorage cardList:", localStorage.cardList);
+            };
+        });
+
+        } else {
+            var cardQTY = 0;
+            console.log("Mon panier ne contient pas de produits");
+
+            // Incrémentation du nombre de produits présent dans le panier
+            addToCartClass.addEventListener("click", () => {
+                lsqty++; //Quantité de produit ajouté au panier. + 1 à chaque clic sur le bouton d'ajout au panier. La valeur est remise à 0 sur chaque page produit
+                localStorage.cardLSQTY = lsqty; //Conserve en mémoire la valeur da ma variable lsqty tant que je ne la réinitialise pas en ajoutant un nouveau produit au panier
+                cardQTY++; //Quantité total de produit présent dans le panier + 1 (à chaque clic sur le bouton d'ajout au panier)
+                document.getElementById("qty-cart").innerHTML = cardQTY; //Envoie la valeur cardQTY à l'élément ID: qty-cart de mon DOM (correspond au bouton panier de la page)
+                localStorage.cardQTY = cardQTY; //Mise en localstorage de la valeur cardQTY du panier (pour pouvoir la récupérer et l'afficher sur les autres pages). Chaque clic d'ajout au panier permet de raffraîchir la valeur
+
+                //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs 
+                productItem.product_ID = idProduct;
+                productItem.product_QTY = lsqty;
+
+            //On teste si le produit n'est pas déjà dans le panier, on ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
+            if (productItem.product_ID != idProduct) {   
+                  productItem.push(idProduct);
+                  productItem.push(lsqty);
+
+                  //productList.product_LIST = productItem;
+                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
+                localStorage.cardList = productList;
+
+            } else {
+                //productList.product_LIST = productItem;
+                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
+                localStorage.cardList = productList;
+                console.log('Valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
+                console.log("valeur de ma localStorage cardList:", localStorage.cardList);
+            };
+        
+            //console.table([productItem]);
+            //productsList.product_LIST = productItem;
+            //localStorage.setItem("cardList", JSON.stringify(productItem));
+            //localStorage.cardList = productsList;
         });
     }
 })

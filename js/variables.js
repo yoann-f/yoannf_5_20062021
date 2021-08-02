@@ -2,10 +2,10 @@ var lsqty = 0;
 var cardQTY = localStorage.cardQTY;
 
 // Variable pour le panier
-var cart; //Tableau: On récupère l'ensemble des tableaux produits (product_ID + product_QTY)
+var productList = []; //Tableau: On récupère l'ensemble des tableaux produits (product_ID + product_QTY)
 
 
-var product = []; //Tableau: on récupère le couple product_ID et product_QTY
+var productItem = []; //Tableau: on récupère le couple product_ID et product_QTY
 var product_ID; //String de l'url produit
 var product_QTY; //Integer: on récupère la quanttié de produit
 
