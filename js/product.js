@@ -145,7 +145,7 @@ productThumbnail = () => {
       const addToCartClass = document.getElementById("addToCart");
 
       localStorage.cardID = idProduct;
- 
+
       //Renvoie le nombre de produits présent dans le panier via le localstorage
       if (localStorage.cardQTY != 0) {
         var cardQTY = JSON.parse(localStorage.cardQTY);
@@ -158,7 +158,6 @@ productThumbnail = () => {
           cardQTY++;
           document.getElementById("qty-cart").innerHTML = cardQTY;
           localStorage.cardQTY = cardQTY;
-
 
           //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
           productItem.product_ID = idProduct;
@@ -194,12 +193,12 @@ productThumbnail = () => {
                 document.getElementById("qty-cart").innerHTML = cardQTY; //Envoie la valeur cardQTY à l'élément ID: qty-cart de mon DOM (correspond au bouton panier de la page)
                 localStorage.cardQTY = cardQTY; //Mise en localstorage de la valeur cardQTY du panier (pour pouvoir la récupérer et l'afficher sur les autres pages). Chaque clic d'ajout au panier permet de raffraîchir la valeur
 
-                //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs 
+                //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
                 productItem.product_ID = idProduct;
                 productItem.product_QTY = lsqty;
 
             //On teste si le produit n'est pas déjà dans le panier, on ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
-            if (productItem.product_ID != idProduct) {   
+            if (productItem.product_ID != idProduct) {
                   productItem.push(idProduct);
                   productItem.push(lsqty);
 
@@ -214,7 +213,7 @@ productThumbnail = () => {
                 console.log('Valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
                 console.log("valeur de ma localStorage cardList:", localStorage.cardList);
             };
-        
+
             //console.table([productItem]);
             //productsList.product_LIST = productItem;
             //localStorage.setItem("cardList", JSON.stringify(productItem));

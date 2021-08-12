@@ -24,3 +24,4 @@ if (localStorage.getItem("cardQTY") && localStorage.cardQTY == 0) {
     localStorage.cardQTY
   );
 }
+
