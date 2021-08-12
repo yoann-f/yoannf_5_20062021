@@ -1,21 +1,12 @@
 // PAGE PRODUIT ////////////////////////////////////////////////////////////////////////////////
 productThumbnail = () => {
-  // A l'aide de la propriété "search", de l'interface "location", j'isole une chaîne de requête contenant un "?", suivi de paramètres URL
-  const urlPage = window.location.search;
-  //console.log(urlPage); //DEBUG : Récupération de l'url complet du produit de la page
-
-  // Une fois le paramètre URL isolé, je récupère uniquement l'élément qui m'intéresse, dans mon cas, l'ID du produit présent dans l'URL
-  const urlProductPage = new URLSearchParams(urlPage);
-  //console.log(urlProductPage); //DEBUG:
-
-  var idProduct = urlProductPage.get("id");
-  //console.log(idProduct); //DEBUG : Récupération de l'ID du produit présenté sur la page
+	var idProduct = getProduct();
 
   // Maintenant, j'effectue un fetch sur l'URL complète comprenant le lien de l'API "URL_API" associée au type de produit "productSell", à un slash séparatif "/" et enfin l'ID du produit
   fetch(URL_API + productSell + "/" + idProduct)
     .then((res) => res.json()) // Envoie une promesse à notre application
     .then((data) => {
-      console.log(data); // L'élément "data" retourne un tableau contenant l'ensemble des informations du produit
+      // console.log(data); // L'élément "data" retourne un tableau contenant l'ensemble des informations du produit
 
       // A l'aide de console.log, je teste si la requête pour chaque clés retourne bien un résultat
       /*console.log(data["colors"]);

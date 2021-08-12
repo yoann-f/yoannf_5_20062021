@@ -78,7 +78,10 @@
         <script src="js/functions.js"></script>
         <script src="js/product.js"></script>
         <script>
-            productThumbnail()
+            productThumbnail();
+
+            // On doit envoyer le tableau [idProduit, quantité] au localStorage
+            addProductToCard([idProduit, qte]);
         </script>
     </body>
 </html>
