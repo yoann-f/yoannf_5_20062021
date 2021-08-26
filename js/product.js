@@ -1,6 +1,7 @@
 // PAGE PRODUIT ////////////////////////////////////////////////////////////////////////////////
 productThumbnail = () => {
-	var idProduct = getProduct();
+  var idProduct = getProduct();
+  console.log(idProduct); //DEBUG LINE: Affichage de l'ID du produit présenté sur la page, qui est récupéré via la fonction getProduct()
 
   // Maintenant, j'effectue un fetch sur l'URL complète comprenant le lien de l'API "URL_API" associée au type de produit "productSell", à un slash séparatif "/" et enfin l'ID du produit
   fetch(URL_API + productSell + "/" + idProduct)
@@ -32,7 +33,12 @@ productThumbnail = () => {
 
       // Si soldé, création d'un "badge" indiquant que le produit est en solde
       let badge = document.createElement("div");
-      badge.classList.add("badge", "bg-dark", "text-white", "position-absolute");
+      badge.classList.add(
+        "badge",
+        "bg-dark",
+        "text-white",
+        "position-absolute"
+      );
 
       // Création d'un élément image qui récupère l'url de l'image associée via le tableau. J'ajoute également une largeur de 100% et une hauteur de 50% ainsi que la propriété "cover"
       let img = document.createElement("img");
@@ -43,7 +49,14 @@ productThumbnail = () => {
 
       // Création d'une div qui contient les éléments : nom, déscription et prix du produit, mise en forme avec les classes bootstrap: card-body, p-4, text-center, border, border-warning et border-2
       let thumbnail = document.createElement("div");
-      thumbnail.classList.add("card-body", "p-4", "text-center", "border", "border-warning", "border-2");
+      thumbnail.classList.add(
+        "card-body",
+        "p-4",
+        "text-center",
+        "border",
+        "border-warning",
+        "border-2"
+      );
 
       // Création du titre contenant le nom du produit
       let productName = document.createElement("h5");
@@ -62,7 +75,11 @@ productThumbnail = () => {
 
       // Création d'une "div" avec les classes "d-flex", "justify-content-between" et "align-items-center". Permet la mise en forme des éléments affichant le prix, le choix des couleurs, l'ajout au panier
       let productAction = document.createElement("div");
-      productAction.classList.add("d-flex", "justify-content-between", "align-items-center");
+      productAction.classList.add(
+        "d-flex",
+        "justify-content-between",
+        "align-items-center"
+      );
 
       // Création du bouton deroulant pour selectionner la couleur du produit parmi les choix possibles
       let productColorForm = document.createElement("form");
@@ -137,10 +154,13 @@ productThumbnail = () => {
 
       localStorage.cardID = idProduct;
 
+	  
       //Renvoie le nombre de produits présent dans le panier via le localstorage
       if (localStorage.cardQTY != 0) {
         var cardQTY = JSON.parse(localStorage.cardQTY);
         console.log("Mon panier contient", cardQTY, "produits"); //DEBUG LIGNE
+		
+		productList = JSON.parse(localStorage.cardList);
 
         // Incrémentation du nombre de produits présent dans le panier
         addToCartClass.addEventListener("click", () => {
@@ -149,69 +169,88 @@ productThumbnail = () => {
           cardQTY++;
           document.getElementById("qty-cart").innerHTML = cardQTY;
           localStorage.cardQTY = cardQTY;
+		  
+          //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
+          //productItem.product_ID = idProduct;
+          //productItem.product_QTY = lsqty;
+
+
+          console.log("Voir :", productItem, productItem.product_ID, idProduct);
+          //On teste si le produit n'est pas déjà dans le panier. On ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
+          if (productItem.product_ID != idProduct) {
+            //productItem.push(idProduct);
+			productItem.product_ID = idProduct;
+			productItem.product_QTY = lsqty;
+			console.log("productItem.product_ID est différent de idProduct !!!")
+
+            //productList.product_LIST = productItem;
+            productList.push(productItem);
+
+            cardList = JSON.stringify(productList);
+            localStorage.cardList = cardList;
+          } else {
+            productItem.product_QTY = lsqty;
+			console.log("productItem.product_ID n'est pas différent de idProduct !!!")
+
+            //productList.product_LIST = productItem;
+            //productList.push(productItem);
+
+            cardList = JSON.stringify(productList);
+            localStorage.cardList = cardList;
+            console.log('Valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
+            console.log("valeur de ma localStorage cardList:", localStorage.cardList);
+          }
+        });
+      } else {
+        var cardQTY = 0;
+        console.log("Mon panier ne contient pas de produits");
+
+        // Incrémentation du nombre de produits présent dans le panier
+        addToCartClass.addEventListener("click", () => {
+          //J'ajoute le ID et la Qté au panier
+          addProductToCard({idProduct, lsqty});
+          console.log("Suis je bien sur cet event ?");
+
+          /*lsqty++; //Quantité de produit ajouté au panier. + 1 à chaque clic sur le bouton d'ajout au panier. La valeur est remise à 0 sur chaque page produit
+          localStorage.cardLSQTY = lsqty; //Conserve en mémoire la valeur da ma variable lsqty tant que je ne la réinitialise pas en ajoutant un nouveau produit au panier
+          cardQTY++; //Quantité total de produit présent dans le panier + 1 (à chaque clic sur le bouton d'ajout au panier)
+          document.getElementById("qty-cart").innerHTML = cardQTY; //Envoie la valeur cardQTY à l'élément ID: qty-cart de mon DOM (correspond au bouton panier de la page)
+          localStorage.cardQTY = cardQTY; //Mise en localstorage de la valeur cardQTY du panier (pour pouvoir la récupérer et l'afficher sur les autres pages). Chaque clic d'ajout au panier permet de raffraîchir la valeur
 
           //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
           productItem.product_ID = idProduct;
           productItem.product_QTY = lsqty;
 
-          //On teste si le produit n'est pas déjà dans le panier. On ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
-            if (productItem.product_ID != idProduct) {
-                  productItem.push(idProduct);
-                  productItem.push(lsqty);
+          //On teste si le produit n'est pas déjà dans le panier, on ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
+          if (productItem.product_ID != idProduct) {
+            productItem.push(idProduct);
+            productItem.push(lsqty);
 
-                  //productList.product_LIST = productItem;
-                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
-                localStorage.cardList = productList;
+            //productList.product_LIST = productItem;
+            productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
+            localStorage.cardList = productList;
+          } else {
+            //productList.product_LIST = productItem;
+            productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
+            localStorage.cardList = productList;
+            console.log(
+              'Valeur pour le tableau produit "productItem" :',
+              productItem
+            ); //DEBUG LINE
+            console.log(
+              "valeur de ma localStorage cardList:",
+              localStorage.cardList
+            );
+          }*/
 
-            } else {
-                //productList.product_LIST = productItem;
-                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
-                localStorage.cardList = productList;
-                console.log('Valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
-                console.log("valeur de ma localStorage cardList:", localStorage.cardList);
-            };
+          //console.table([productItem]);
+          //productsList.product_LIST = productItem;
+          //localStorage.setItem("cardList", JSON.stringify(productItem));
+          //localStorage.cardList = productsList;
         });
+      }
 
-        } else {
-            var cardQTY = 0;
-            console.log("Mon panier ne contient pas de produits");
-
-            // Incrémentation du nombre de produits présent dans le panier
-            addToCartClass.addEventListener("click", () => {
-                lsqty++; //Quantité de produit ajouté au panier. + 1 à chaque clic sur le bouton d'ajout au panier. La valeur est remise à 0 sur chaque page produit
-                localStorage.cardLSQTY = lsqty; //Conserve en mémoire la valeur da ma variable lsqty tant que je ne la réinitialise pas en ajoutant un nouveau produit au panier
-                cardQTY++; //Quantité total de produit présent dans le panier + 1 (à chaque clic sur le bouton d'ajout au panier)
-                document.getElementById("qty-cart").innerHTML = cardQTY; //Envoie la valeur cardQTY à l'élément ID: qty-cart de mon DOM (correspond au bouton panier de la page)
-                localStorage.cardQTY = cardQTY; //Mise en localstorage de la valeur cardQTY du panier (pour pouvoir la récupérer et l'afficher sur les autres pages). Chaque clic d'ajout au panier permet de raffraîchir la valeur
-
-                //Ici, j'envoie les informations idProduct et lsqty dans le tableau productItem. J'indique également des 'keys' pour chacunes des valeurs
-                productItem.product_ID = idProduct;
-                productItem.product_QTY = lsqty;
-
-            //On teste si le produit n'est pas déjà dans le panier, on ajoute l'ID produit et la quantité sinon on remplace uniquement la quantité
-            if (productItem.product_ID != idProduct) {
-                  productItem.push(idProduct);
-                  productItem.push(lsqty);
-
-                  //productList.product_LIST = productItem;
-                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
-                localStorage.cardList = productList;
-
-            } else {
-                //productList.product_LIST = productItem;
-                productList = JSON.stringify([productItem.product_ID, productItem.product_QTY]);
-                localStorage.cardList = productList;
-                console.log('Valeur pour le tableau produit "productItem" :', productItem); //DEBUG LINE
-                console.log("valeur de ma localStorage cardList:", localStorage.cardList);
-            };
-
-            //console.table([productItem]);
-            //productsList.product_LIST = productItem;
-            //localStorage.setItem("cardList", JSON.stringify(productItem));
-            //localStorage.cardList = productsList;
-        });
-    }
-})
+	})
 
     .catch(function (error) {
       alert("Erreur : " + error);
